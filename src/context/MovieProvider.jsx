@@ -44,9 +44,11 @@ const MovieProvider = ({ children }) => {
 			};
 			const movieKey = await fetch(url, options);
 			const data = await movieKey.json();
-			setTrailerKey(data.results[0].key);
+
+			const videoId = data.results[0]?.key || "dQw4w9WgXcQ";	// Rick roll video
+			setTrailerKey(videoId);
 			setModalIsOpen(true);
-			// console.log(data);
+			// console.log(videoId);	
 		} catch (error) {
 			setModalIsOpen(false);
 			console.log(error);

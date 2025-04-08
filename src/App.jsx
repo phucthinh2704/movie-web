@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import Contact from "./components/Contact";
+
 import Banner from "./components/Banner";
 import Header from "./components/Header";
 import MovieList from "./components/MovieList";
 import MovieSearch from "./components/MovieSearch";
 import { MovieProvider } from "./context/MovieProvider";
+import About from "./components/About";
+import Footer from "./components/Footer";
 
 function App() {
 	const [movie, setMovie] = useState([]);
@@ -23,7 +28,6 @@ function App() {
 
 			const searchMovie = await fetch(url, options);
 			const data = await searchMovie.json();
-			//  console.log(data);
 			setMovieSearch(data.results);
 		} catch (error) {
 			console.log(error);
@@ -62,24 +66,40 @@ function App() {
 	return (
 		<>
 			<MovieProvider>
-				<div className="bg-black pb-10">
+				<div className="bg-black">
 					<Header onSearch={handleSearch}></Header>
 					<Banner></Banner>
-					{movieSearch.length > 0 ? (
-						<MovieSearch
-							title={"Kết quả tìm kiếm"}
-							data={movieSearch}
+					<Routes>
+						<Route
+							path="/"
+							element={
+								movieSearch.length > 0 ? (
+									<MovieSearch
+										title={"Kết quả tìm kiếm"}
+										data={movieSearch}
+									/>
+								) : (
+									<>
+										<MovieList
+											title={"Phim Hot"}
+											data={movie}></MovieList>
+										<MovieList
+											title={"Phim Đề Cử"}
+											data={movieRate}></MovieList>
+									</>
+								)
+							}
 						/>
-					) : (
-						<>
-							<MovieList
-								title={"Phim Hot"}
-								data={movie}></MovieList>
-							<MovieList
-								title={"Phim Đề Cử"}
-								data={movieRate}></MovieList>
-						</>
-					)}
+						<Route
+							path="/contact"
+							element={<Contact />}
+						/>
+						<Route
+							path="/about"
+							element={<About />}
+						/>
+					</Routes>
+					<Footer></Footer>
 				</div>
 			</MovieProvider>
 		</>

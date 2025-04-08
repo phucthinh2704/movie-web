@@ -3,6 +3,7 @@ import { MovieContext } from "../context/MovieProvider";
 
 const MovieSearch = ({ title, data }) => {
 	const { handleTrailer } = useContext(MovieContext);
+	const imageUrl = "/rick_roll.jpg";
 	return (
 		<div className="text-white p-10 mb-10">
 			<h2 className="uppercase text-xl mb-4">{title}</h2>
@@ -16,10 +17,16 @@ const MovieSearch = ({ title, data }) => {
 							onClick={() => handleTrailer(item.id)}>
 							<div className="group-hover:scale-105 transition-transform duration-300 w-full h-full cursor-pointer">
 								<div className="absolute top-0 left-0 w-full h-full bg-black/40"></div>
+
 								<img
-									src={`${import.meta.env.VITE_IMG_URL}${
+									src={
 										item.poster_path || item.backdrop_path
-									}`}
+											? `${import.meta.env.VITE_IMG_URL}${
+													item.poster_path ||
+													item.backdrop_path
+											  }`
+											: imageUrl
+									}
 									alt={item.title}
 									className="w-full h-full object-cover "
 								/>
